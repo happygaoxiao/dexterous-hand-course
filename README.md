@@ -43,6 +43,8 @@
 
 - MuJoCo Menagerie: https://github.com/google-deepmind/mujoco_menagerie 建议学生通过这个仓库查阅不同类型机器人的模型、关节配置、执行器写法和场景组织方式。如果想参考更多机械手、机械臂、移动机器人或四足机器人模型，这个资源很有帮助
 
+- Aero Hand Open: https://github.com/TetherIA/aero-hand-open 可作为开源tendon-driven灵巧手结构设计、硬件实现与系统集成的参考项目
+
 
 
 

@@ -21,7 +21,7 @@
       <joint axis="0 1 0" range="-0.10 1.25"/>
     </default>
     <default class="thumb_base_joint">
-      <joint axis="0 1 0" range="-0.20 1.10"/>
+      <joint axis="0 0 1" range="-0.20 1.10"/>
     </default>
     <default class="thumb_proximal_joint">
       <joint axis="0 1 0" range="-0.15 1.40"/>

@@ -6,6 +6,7 @@ import time
 
 ROOT = Path(__file__).resolve().parent
 XML_PATH = ROOT / "descriptions" / "fully_actuated_dexterous_3_finger_hand.xml"
+# XML_PATH = ROOT / "descriptions" / "flex_gripper.xml" # deformable gripper from https://github.com/google-deepmind/mujoco/tree/main/model/flex
 
 model = mujoco.MjModel.from_xml_path(str(XML_PATH))
 data = mujoco.MjData(model)
