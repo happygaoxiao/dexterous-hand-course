@@ -1,0 +1,131 @@
+<mujoco model="underactuated_soft_3finger_hand">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" iterations="80"/>
+
+  <visual>
+    <headlight ambient="0.5 0.5 0.5" diffuse="0.6 0.6 0.6" specular="0.1 0.1 0.1"/>
+  </visual>
+
+  <default>
+    <joint type="hinge" damping="0.12" armature="0.0002"
+           stiffness="0.8" limited="true"/>
+    <geom type="capsule" size="0.010" density="350" friction="1.2 0.02 0.002"
+          contype="1" conaffinity="1" rgba="0.3 0.6 0.9 1"/>
+    <!-- Pure planar underactuated hand:
+         each finger has three parallel bending DOFs. -->
+    <default class="finger_base_joint">
+      <joint axis="0 -1 0" range="0 3.14"/>
+    </default>
+    <default class="finger_proximal_joint">
+      <joint axis="0 -1 0" range="0 3.14"/>
+    </default>
+    <default class="finger_distal_joint">
+      <joint axis="0 -1 0" range="0 3.14 "/>
+    </default>
+    <default class="thumb_base_joint">
+      <joint axis="0 -1 0" range="0 3.14 "/>
+    </default>
+    <default class="thumb_proximal_joint">
+      <joint axis="0 -1 0" range="0 3.14 "/>
+    </default>
+    <default class="thumb_distal_joint">
+      <joint axis="0 -1 0" range="0 3.14 "/>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2="0.7 0.8 0.9" width="256" height="256"/>
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512"
+             rgb1="0.86 0.86 0.86" rgb2="0.72 0.72 0.72"/>
+    <material name="palm_mat" rgba="0.2 0.2 0.2 1"/>
+    <material name="obj_mat" rgba="0.85 0.3 0.3 1"/>
+    <material name="grid_mat" texture="grid" texrepeat="8 8" texuniform="true"
+              reflectance="0.15"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1"/>
+    <geom name="floor" type="plane" size="1 1 0.1" pos="0 0 0" material="grid_mat"/>
+
+    <body name="palm" pos="0 0 0.065">
+      <geom name="palm_main" type="cylinder" size="0.056 0.014" pos="0 0 0" material="palm_mat"/>
+      <!-- thumb -->
+      <body name="thumb_base" pos="0.052 0.000 0.018" euler="0 0 3.1415926536">
+        <joint name="thumb_j1" class="thumb_base_joint"/>
+        <geom size="0.0085" fromto="0 0 0 -0.034 0 0" rgba="0.95 0.75 0.45 1"/>
+        <body name="thumb_link2" pos="-0.034 0 0" euler="0 0 0">
+          <joint name="thumb_j2" class="thumb_proximal_joint"/>
+          <geom size="0.0080" fromto="0 0 0 -0.026 0 0" rgba="0.95 0.75 0.45 1"/>
+          <body name="thumb_link3" pos="-0.026 0 0" euler="0 0 0">
+            <joint name="thumb_j3" class="thumb_distal_joint"/>
+            <geom size="0.0075" fromto="0 0 0 -0.022 0 0" rgba="0.95 0.75 0.45 1"/>
+            <site name="thumb_tip" pos="-0.022 0 0" size="0.006" rgba="1 0.6 0 1"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- index finger -->
+      <body name="index_base" pos="0.026 0.045 0.018" euler="0 0 -2.0943951024">
+        <joint name="index_j1" class="finger_base_joint"/>
+        <geom fromto="0 0 0 -0.042 0 0" rgba="0.3 0.6 0.9 1"/>
+        <body name="index_link2" pos="-0.042 0 0" euler="0 0 0">
+          <joint name="index_j2" class="finger_proximal_joint"/>
+          <geom fromto="0 0 0 -0.033 0 0" rgba="0.3 0.6 0.9 1"/>
+          <body name="index_link3" pos="-0.033 0 0" euler="0 0 0">
+            <joint name="index_j3" class="finger_distal_joint"/>
+            <geom fromto="0 0 0 -0.030 0 0" rgba="0.3 0.6 0.9 1"/>
+            <site name="index_tip" pos="-0.030 0 0" size="0.006" rgba="0 1 0 1"/>
+          </body>
+        </body>
+      </body>
+
+      <!-- middle finger -->
+      <body name="middle_base" pos="-0.026 0.045 0.018" euler="0 0 -1.0471975512">
+        <joint name="middle_j1" class="finger_base_joint"/>
+        <geom fromto="0 0 0 -0.042 0 0" rgba="0.2 0.5 0.95 1"/>
+        <body name="middle_link2" pos="-0.042 0 0" euler="0 0 0">
+          <joint name="middle_j2" class="finger_proximal_joint"/>
+          <geom fromto="0 0 0 -0.033 0 0" rgba="0.2 0.5 0.95 1"/>
+          <body name="middle_link3" pos="-0.033 0 0" euler="0 0 0">
+            <joint name="middle_j3" class="finger_distal_joint"/>
+            <geom fromto="0 0 0 -0.030 0 0" rgba="0.2 0.5 0.95 1"/>
+            <site name="middle_tip" pos="-0.030 0 0" size="0.006" rgba="0 0.5 1 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+
+    <!-- movable ball in the palm -->
+    <body name="target_ball" pos="0 0 0.202">
+      <freejoint/>
+      <geom type="sphere" size="0.06" density="180" friction="1.0 0.02 0.002"
+            rgba="0.85 0.3 0.3 1" material="obj_mat"/>
+    </body>
+  </worldbody>
+
+  <tendon>
+    <fixed name="grasp_tendon" limited="true" range="0 5.0" stiffness="0.1" damping="0.02">
+      <joint joint="thumb_j1" coef="-1"/>
+      <joint joint="thumb_j2" coef="-0.70"/>
+      <joint joint="thumb_j3" coef="-0.50"/>
+
+      <joint joint="index_j1" coef="-1.00"/>
+      <joint joint="index_j2" coef="-0.80"/>
+      <joint joint="index_j3" coef="-0.60"/>
+
+      <joint joint="middle_j1" coef="-1.00"/>
+      <joint joint="middle_j2" coef="-0.85"/>
+      <joint joint="middle_j3" coef="-0.65"/>
+    </fixed>
+  </tendon>
+
+  <actuator>
+    <position name="close_hand" tendon="grasp_tendon"
+              ctrlrange="0 3.8" kp="25" kv="6"/>
+  </actuator>
+
+  <sensor>
+    <tendonpos name="grasp_length" tendon="grasp_tendon"/>
+    <actuatorfrc name="close_force" actuator="close_hand"/>
+  </sensor>
+</mujoco>

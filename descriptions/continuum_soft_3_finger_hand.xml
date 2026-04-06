@@ -1,0 +1,72 @@
+<mujoco model="continuum_soft_3finger_hand">
+  <compiler angle="degree" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 0" integrator="implicitfast" iterations="80"/>
+
+  <extension>
+    <plugin plugin="mujoco.elasticity.cable"/>
+  </extension>
+
+  <visual>
+    <headlight ambient="0.45 0.45 0.45" diffuse="0.65 0.65 0.65" specular="0.15 0.15 0.15"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2="0.75 0.82 0.90" width="256" height="256"/>
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512"
+             rgb1="0.88 0.88 0.88" rgb2="0.74 0.74 0.74"/>
+    <material name="grid_mat" texture="grid" texrepeat="8 8" texuniform="true" reflectance="0.12"/>
+    <material name="palm_mat" rgba="0.18 0.18 0.20 1"/>
+    <material name="target_mat" rgba="0.86 0.32 0.30 1"/>
+  </asset>
+
+  <default>
+    <geom friction="1.2 0.02 0.002" condim="3" solref="0.003 1"/>
+  </default>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1"/>
+    <geom name="floor" type="plane" size="1 1 0.1" material="grid_mat"/>
+
+    <body name="palm" pos="0 0 0.085">
+      <geom name="palm_main" type="cylinder" size="0.058 0.015" material="palm_mat"/>
+      <geom name="palm_cap" type="sphere" size="0.026" pos="0 0 0.020" material="palm_mat"/>
+
+      <body name="thumb_mount" pos="0.050 0.000 0.015" euler="0 -24 180">
+        <composite prefix="thumb_" type="cable" curve="s" count="11 1 1" size="0.082" initial="none">
+          <plugin plugin="mujoco.elasticity.cable">
+            <config key="twist" value="1.0e4"/>
+            <config key="bend" value="4.0e4"/>
+          </plugin>
+          <joint kind="main" damping="0.22" armature="0.00012"/>
+          <geom type="capsule" size="0.0068" density="480" rgba="0.95 0.75 0.45 1"/>
+        </composite>
+      </body>
+
+      <body name="index_mount" pos="0.028 0.048 0.015" euler="0 -18 -120">
+        <composite prefix="index_" type="cable" curve="s" count="11 1 1" size="0.086" initial="none">
+          <plugin plugin="mujoco.elasticity.cable">
+            <config key="twist" value="1.0e4"/>
+            <config key="bend" value="3.2e4"/>
+          </plugin>
+          <joint kind="main" damping="0.22" armature="0.00012"/>
+          <geom type="capsule" size="0.0066" density="480" rgba="0.30 0.60 0.90 1"/>
+        </composite>
+      </body>
+
+      <body name="middle_mount" pos="-0.028 0.048 0.015" euler="0 -18 -60">
+        <composite prefix="middle_" type="cable" curve="s" count="11 1 1" size="0.086" initial="none">
+          <plugin plugin="mujoco.elasticity.cable">
+            <config key="twist" value="1.0e4"/>
+            <config key="bend" value="3.2e4"/>
+          </plugin>
+          <joint kind="main" damping="0.22" armature="0.00012"/>
+          <geom type="capsule" size="0.0066" density="480" rgba="0.24 0.52 0.96 1"/>
+        </composite>
+      </body>
+    </body>
+
+    <body name="target_ball" pos="0 0 0.114">
+      <geom type="sphere" size="0.020" material="target_mat" contype="0" conaffinity="0"/>
+    </body>
+  </worldbody>
+</mujoco>
