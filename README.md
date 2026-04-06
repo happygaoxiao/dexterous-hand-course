@@ -39,9 +39,11 @@
 
 ## 扩展资源
 
-- MuJoCo Menagerie: https://github.com/google-deepmind/mujoco_menagerie
-- 建议学生通过这个仓库查阅不同类型机器人的模型、关节配置、执行器写法和场景组织方式
-- 如果想参考更多机械手、机械臂、移动机器人或四足机器人模型，这个资源很有帮助
+- MuJoCo XML Reference: https://mujoco.readthedocs.io/en/stable/overview.html 建议学生在编写 MuJoCo XML 模型时查阅官方文档，重点关注 `joint`、`geom`、`body`、`tendon`、`actuator`、`sensor` 等部分
+
+- MuJoCo Menagerie: https://github.com/google-deepmind/mujoco_menagerie 建议学生通过这个仓库查阅不同类型机器人的模型、关节配置、执行器写法和场景组织方式。如果想参考更多机械手、机械臂、移动机器人或四足机器人模型，这个资源很有帮助
+
+
 
 
 ## 课程使用建议
