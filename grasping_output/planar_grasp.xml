@@ -1,0 +1,56 @@
+<mujoco model="planar_2R_grasp">
+      <compiler angle="radian"/>
+      <option gravity="0 0 -9.81"/>
+      <visual><global offwidth="1000" offheight="750"/></visual>
+      <default><geom density="1000" friction="0.6 0.005 0.0001"/><joint damping="1"/></default>
+      <asset>
+        <texture name="checker" type="2d" builtin="checker" rgb1="0.85 0.85 0.85" rgb2="0.25 0.3 0.35" width="512" height="512"/>
+        <material name="floor_mat" texture="checker" texrepeat="12 12" texuniform="true"/>
+      </asset>
+      <worldbody>
+        <light pos="0 -0.4 1" dir="0 0 -1"/>
+        <geom name="floor" type="plane" pos="0 0 -0.1" size="1 1 0.01" material="floor_mat"/>
+        
+        <body name="finger0_proximal">
+          <inertial pos="0.06 0 0" mass="0.02" diaginertia="1e-8 2.3999999999999997e-05 2.3999999999999997e-05"/>
+          <joint name="q00" type="hinge" axis="0 0 1" limited="true" range="-3.141593 3.141593"/>
+          <geom name="link00" type="capsule" fromto="0 0 0 0.12 0 0" size="1e-05" rgba="0 0 0 0"/>
+          <geom name="visual_link00" type="capsule" fromto="0 0 0 0.12 0 0" size="0.0015" rgba="0.15 0.45 0.9 1" contype="0" conaffinity="0"/>
+          <site name="A" pos="0.12 0 0" size="0.003"/>
+          <body name="finger0_distal" pos="0.12 0 0">
+            <inertial pos="0.05 0 0" mass="0.02" diaginertia="1e-8 1.6666666666666667e-05 1.6666666666666667e-05"/>
+            <joint name="q01" type="hinge" axis="0 0 1" limited="true" range="-3.141593 3.141593"/>
+            <geom name="link01" type="capsule" fromto="0 0 0 0.1 0 0" size="1e-05" rgba="0 0 0 0"/>
+            <geom name="visual_link01" type="capsule" fromto="0 0 0 0.1 0 0" size="0.0015" rgba="0.15 0.45 0.9 1" contype="0" conaffinity="0"/>
+            <site name="B" pos="0.1 0 0" size="0.003"/>
+          </body>
+        </body>
+        <body name="finger1_proximal">
+          <inertial pos="0.06 0 0" mass="0.02" diaginertia="1e-8 2.3999999999999997e-05 2.3999999999999997e-05"/>
+          <joint name="q10" type="hinge" axis="0 0 1" limited="true" range="-3.141593 3.141593"/>
+          <geom name="link10" type="capsule" fromto="0 0 0 0.12 0 0" size="1e-05" rgba="0 0 0 0"/>
+          <geom name="visual_link10" type="capsule" fromto="0 0 0 0.12 0 0" size="0.0015" rgba="0.95 0.5 0.12 1" contype="0" conaffinity="0"/>
+          <site name="C" pos="0.12 0 0" size="0.003"/>
+          <body name="finger1_distal" pos="0.12 0 0">
+            <inertial pos="0.05 0 0" mass="0.02" diaginertia="1e-8 1.6666666666666667e-05 1.6666666666666667e-05"/>
+            <joint name="q11" type="hinge" axis="0 0 1" limited="true" range="-3.141593 3.141593"/>
+            <geom name="link11" type="capsule" fromto="0 0 0 0.1 0 0" size="1e-05" rgba="0 0 0 0"/>
+            <geom name="visual_link11" type="capsule" fromto="0 0 0 0.1 0 0" size="0.0015" rgba="0.95 0.5 0.12 1" contype="0" conaffinity="0"/>
+            <site name="D" pos="0.1 0 0" size="0.003"/>
+          </body>
+        </body>
+        <body name="object" mocap="true" pos="0.16205429709675045 0.01792555534531247 0">
+          <geom name="cylinder" type="cylinder" size="0.03499 0.04" rgba="0 0 0 0"/>
+          <geom name="visual_cylinder" type="cylinder" size="0.035 0.04" rgba="0.2 0.75 0.4 0.75" contype="0" conaffinity="0"/>
+        </body>
+        <body name="marker1" mocap="true" pos="0.17380301603035256 0.050894747076673116 0"><site name="P1" size="0.0025" rgba="1 0 0 1"/></body><body name="marker2" mocap="true" pos="0.1726567657505415 -0.015429918844771809 0"><site name="P2" size="0.0025" rgba="1 0 0 1"/></body>
+      </worldbody>
+      <contact><exclude body1="finger0_proximal" body2="finger1_proximal"/></contact>
+      <actuator>
+        <motor name="motor00" joint="q00" gear="1" ctrllimited="true" ctrlrange="-1 1"/>
+        <motor name="motor01" joint="q01" gear="1" ctrllimited="true" ctrlrange="-1 1"/>
+        <motor name="motor10" joint="q10" gear="1" ctrllimited="true" ctrlrange="-1 1"/>
+        <motor name="motor11" joint="q11" gear="1" ctrllimited="true" ctrlrange="-1 1"/>
+      </actuator>
+      <keyframe><key name="grasp" qpos="0.7456655579667274 -1.0879901231433786 -0.28468697900420104 0.5924501585193472"/></keyframe>
+    </mujoco>
