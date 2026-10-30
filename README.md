@@ -37,6 +37,31 @@
 
 安装教程见slides
 
+Newton 请用 1.6.x：`pip install "newton[examples]==1.6.*"`。
+
+### 也可以用 uv 管理环境
+
+仓库另外提供了 uv 的配置（`pyproject.toml`、`uv.lock`、`.python-version`），conda 的用法不受影响：
+
+```bash
+uv sync                 # 默认依赖：MuJoCo / NumPy / SciPy / SymPy / Matplotlib / pyserial / JupyterLab
+uv sync --extra newton  # 另加 Newton 软体夹爪（需要 NVIDIA GPU，已固定 1.6.x）
+```
+
+用 uv 时不需要激活环境，直接运行：
+
+```bash
+uv run python -m mujoco.viewer --mjcf=descriptions/fully_actuated_dexterous_3_finger_hand.xml
+uv run python load_xml_and_view.py
+uv run python run_underactuated_soft_3_finger_hand.py
+uv run python run_fully_actuated_dexterous_3_finger_hand.py
+uv run python run_mujoco_continuum_3_finger_hand.py
+uv run python run_newton_continuum_soft_gripper.py
+uv run jupyter lab
+```
+
+串口库的 PyPI 包名是 `pyserial`（导入名才是 `serial`），不要安装名为 `serial` 的包。
+
 ## 扩展资源
 
 - MuJoCo XML Reference: https://mujoco.readthedocs.io/en/stable/overview.html 建议学生在编写 MuJoCo XML 模型时查阅官方文档，重点关注 `joint`、`geom`、`body`、`tendon`、`actuator`、`sensor` 等部分
