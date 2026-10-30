@@ -10,6 +10,10 @@
 pip3 install pyserial
 ```
 
+> 用 uv 管理环境时先执行 `uv sync`（`pyproject.toml` 已包含 `pyserial`），
+> 下面每条命令都同时给出了 `uv run` 版本，可直接复制。
+> 注意串口库包名是 `pyserial`（导入名才是 `serial`），不要装名为 `serial` 的包。
+
 2. 确认串口号（Windows 示例）：
 
 在设备管理器中查看COM端口。
@@ -20,6 +24,7 @@ pip3 install pyserial
 
 ```bash
 python servo_host.py --port <串口号> [--baud 115200] [--cmd "..."] [--interactive]
+uv run python servo_host.py --port <串口号> [--baud 115200] [--cmd "..."] [--interactive]
 ```
 
 - `--port`：必填，ZLink 对应串口。
@@ -31,6 +36,7 @@ python servo_host.py --port <串口号> [--baud 115200] [--cmd "..."] [--interac
 
 ```bash
 python servo_host.py --port COM3
+uv run python servo_host.py --port COM3
 ```
 
 会自动执行内置演示：
@@ -43,6 +49,7 @@ python servo_host.py --port COM3
 
 ```bash
 python servo_host.py --port COM3 --cmd "MOVE 0 1500 800"
+uv run python servo_host.py --port COM3 --cmd "MOVE 0 1500 800"
 ```
 
 含义：
@@ -54,6 +61,7 @@ python servo_host.py --port COM3 --cmd "MOVE 0 1500 800"
 
 ```bash
 python servo_host.py --port COM3 --cmd "READ 0"
+uv run python servo_host.py --port COM3 --cmd "READ 0"
 ```
 
 若回包正常，脚本会打印：
@@ -66,6 +74,7 @@ POS id=0 pos=1500
 
 ```bash
 python servo_host.py --port COM3 --cmd "SETID 1 2"
+uv run python servo_host.py --port COM3 --cmd "SETID 1 2"
 ```
 
 含义：把 ID `1` 改成 `2`。
@@ -74,6 +83,7 @@ python servo_host.py --port COM3 --cmd "SETID 1 2"
 
 ```bash
 python servo_host.py --port COM3 --cmd "RAW #000PRAD!"
+uv run python servo_host.py --port COM3 --cmd "RAW #000PRAD!"
 ```
 
 用于手工测试协议帧。
@@ -82,6 +92,7 @@ python servo_host.py --port COM3 --cmd "RAW #000PRAD!"
 
 ```bash
 python servo_host.py --port COM3 --interactive
+uv run python servo_host.py --port COM3 --interactive
 ```
 
 进入后可输入：
@@ -126,12 +137,14 @@ python servo_host.py --port COM3 --interactive
 
 ```bash
 python servo_host.py --port COM3 --cmd "READ 0"
+uv run python servo_host.py --port COM3 --cmd "READ 0"
 ```
 
 2. 再发一条小动作：
 
 ```bash
 python servo_host.py --port COM3 --cmd "MOVE 0 1550 400"
+uv run python servo_host.py --port COM3 --cmd "MOVE 0 1550 400"
 ```
 
 3. 最后进入交互模式连续调试。

@@ -1,0 +1,38 @@
+[project]
+name = "dexterous-hand-course"
+version = "0.1.0"
+description = "机器人灵巧手课程：MuJoCo / Newton 仿真示例、抓取优化 notebook 与 ZLink 舵机控制脚本"
+readme = "README.md"
+authors = [
+    { name = "dynamder", email = "igaster@163.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "mujoco>=3.3",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "sympy>=1.12",
+    "matplotlib>=3.8",
+    # 串口通信（ZLink -> ZP 总线舵机）。
+    # 注意：PyPI 上提供 `import serial` 的包名是 pyserial，
+    # 而名为 `serial` 的包是另一个 JSON/YAML 序列化库，没有 Serial 类。
+    "pyserial>=3.5",
+]
+
+[project.optional-dependencies]
+# Newton 软体夹爪仿真需要 NVIDIA GPU（CUDA）。按需安装：
+#   uv sync --extra newton
+# 钉在 1.6.x：Newton 1.7 移除了 ModelBuilder 的标量 gravity 参数，
+# 而 run_newton_continuum_soft_gripper.py 仍使用 gravity=-9.81 的写法。
+newton = ["newton[examples]>=1.6,<1.7"]
+
+[dependency-groups]
+# 交互式运行课程 notebook 所需
+dev = [
+    "ipykernel>=6.29",
+    "jupyterlab>=4.2",
+]
+
+[tool.uv]
+# 本仓库是一组脚本与 notebook，不构建、不安装自身
+package = false
